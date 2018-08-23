@@ -4,6 +4,7 @@
 #include "Runtime/Engine/Classes/Engine/World.h"
 #include "Runtime/Engine/Classes/Engine/LocalPlayer.h"
 #include "Runtime/Engine/Classes/GameFramework/Actor.h"
+#include "Components/ActorComponent.h"
 
 // Sets default values for this component's properties
 UOpenDoor::UOpenDoor()
