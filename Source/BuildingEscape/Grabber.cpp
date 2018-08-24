@@ -4,7 +4,8 @@
 #include "Components/ActorComponent.h"
 #include "GameFramework/PlayerController.h"
 #include "DrawDebugHelpers.h"
-#include "Private/Collision/PhysXCollision.h"
+#include "CollisionQueryParams.h"
+#include "Engine/World.h"
 
 
 // Sets default values for this component's properties
@@ -43,11 +44,25 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 	FVector LineTraceEnd = PlayerViewPointLocation + PlayerViewPointRotation.Vector()*Reach;
 	//Draw a red trace to visualize where player is looking
 	DrawDebugLine(GetWorld(), PlayerViewPointLocation, LineTraceEnd,FColor(255,0,0),false,0.0f,0.0f,10.0f);
-
-	FHitResult HitResult;
+	
+	//Setup params
+	FCollisionQueryParams TraceParameters(FName(TEXT("")), false, GetOwner());
+	
 	// Ray-cast out to reach distance
-	RaycastSingle(GetWorld(),HitResult, PlayerViewPointLocation, LineTraceEnd,);
-
+	FHitResult Hit;
+	GetWorld()->LineTraceSingleByObjectType(
+		Hit,
+		PlayerViewPointLocation,
+		LineTraceEnd, 
+		FCollisionObjectQueryParams(ECollisionChannel::ECC_PhysicsBody),
+		TraceParameters
+		);
+	
 	// See what we hit
+	AActor* ActorHit = Hit.GetActor();
+	if (ActorHit)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Object hit: %s"), *(ActorHit->GetName()));
+	}
 }
 
