@@ -3,6 +3,8 @@
 #include "Grabber.h"
 #include "Components/ActorComponent.h"
 #include "GameFramework/PlayerController.h"
+#include "DrawDebugHelpers.h"
+#include "Private/Collision/PhysXCollision.h"
 
 
 // Sets default values for this component's properties
@@ -36,9 +38,15 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 	FRotator PlayerViewPointRotation;
 	GetWorld()->GetFirstPlayerController()->GetPlayerViewPoint(PlayerViewPointLocation, PlayerViewPointRotation);
 
-	UE_LOG(LogTemp, Warning, TEXT("Location: %s, Rotation: %s"), *PlayerViewPointLocation.ToString(), *PlayerViewPointRotation.ToString());
+	//UE_LOG(LogTemp, Warning, TEXT("Location: %s, Rotation: %s"), *PlayerViewPointLocation.ToString(), *PlayerViewPointRotation.ToString());
 
+	FVector LineTraceEnd = PlayerViewPointLocation + PlayerViewPointRotation.Vector()*Reach;
+	//Draw a red trace to visualize where player is looking
+	DrawDebugLine(GetWorld(), PlayerViewPointLocation, LineTraceEnd,FColor(255,0,0),false,0.0f,0.0f,10.0f);
+
+	FHitResult HitResult;
 	// Ray-cast out to reach distance
+	RaycastSingle(GetWorld(),HitResult, PlayerViewPointLocation, LineTraceEnd,);
 
 	// See what we hit
 }
