@@ -41,7 +41,8 @@ private:
 	float LastDoorOpenTime;
 
 	UPROPERTY(VIsibleAnywhere)
-	AActor* ActorThatOpens;
-	UPROPERTY(VIsibleAnywhere)
 	AActor* Owner;
+
+	//Returns total mass in kg
+	float GetTotalMassOfActorsOnPlate();
 };
